@@ -1,5 +1,6 @@
 package api.spring.java.entity;
 import api.spring.java.user.UserDataRecord;
+import api.spring.java.user.UserDataUpdate;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,10 +29,32 @@ public class UserEntity {
     @Column(nullable = false)
     private int age;
 
+    @Column(nullable = true)
+    private Boolean actived;
+
     public UserEntity(UserDataRecord userData) {
         firstName = userData.firstName();
         lastName = userData.lastName();
         email = userData.email();
         age = userData.age();
+        actived = userData.actived();
+    }
+    public void updateUserEntity(UserDataUpdate userData){
+        if(userData.firstName() != null){
+            this.firstName = userData.firstName();
+        }
+        if(userData.lastName() != null){
+            this.lastName = userData.lastName();
+        }
+        if(userData.age() >0){
+            this.age = userData.age();
+        }
+        if(userData.email() != null){
+            this.email = userData.email();
+        }
+    }
+
+    public void deleteUserId() {
+        this.actived = false;
     }
 }
