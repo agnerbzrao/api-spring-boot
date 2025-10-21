@@ -19,6 +19,8 @@ public record UserDataRecord(
         String email,
 
         @NotNull
-        int age
+        int age,
+
+        boolean actived
 ) {
 }
