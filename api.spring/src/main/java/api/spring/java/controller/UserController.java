@@ -4,6 +4,7 @@ import api.spring.java.entity.UserEntity;
 import api.spring.java.repository.UserRepository;
 import api.spring.java.user.ListUserData;
 import api.spring.java.user.UserDataRecord;
+import api.spring.java.user.UserDataUpdate;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,9 +23,11 @@ public class UserController {
 
     @PostMapping
     @Transactional
-    public void insertUserData(@RequestBody @Valid UserDataRecord userData)
+    public void insertUserData(@RequestBody @Valid List<UserDataRecord> userData)
     {
-        userRepository.save(new UserEntity(userData));
+        for (UserDataRecord userDts : userData) {
+            userRepository.save(new UserEntity(userDts));
+        }
     }
 
     @GetMapping
@@ -32,6 +35,20 @@ public class UserController {
             @PageableDefault(size=10, sort={"firstName"})
             Pageable pagination
     ) {
-       return userRepository.findAll(pagination).map(ListUserData::new);
+       return userRepository.findAllByActivedTrue(pagination).map(ListUserData::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void updateUser(@RequestBody @Valid UserDataUpdate userData){
+        UserEntity userEntity = userRepository.getReferenceById(userData.id());
+        userEntity.upadateUserEntity(userData);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void deleteUser(@PathVariable Long id){
+        UserEntity userEntity = userRepository.getReferenceById(id);
+        userEntity.deleteUserId();
     }
 }
