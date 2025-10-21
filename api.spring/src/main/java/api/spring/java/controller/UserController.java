@@ -42,7 +42,7 @@ public class UserController {
     @Transactional
     public void updateUser(@RequestBody @Valid UserDataUpdate userData){
         UserEntity userEntity = userRepository.getReferenceById(userData.id());
-        userEntity.upadateUserEntity(userData);
+        userEntity.updateUserEntity(userData);
     }
 
     @DeleteMapping("/{id}")
