@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record UserDataRecord(
+        Long id,
+
         @NotBlank
         @NotNull
         String firstName,
